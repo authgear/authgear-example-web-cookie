@@ -1,9 +1,5 @@
 # Example app for cookie based integration
 
-### Before Start
-
-- Create `.env` from `.env.example`
-
 ### Start
 
 ```sh

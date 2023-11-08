@@ -8,23 +8,27 @@
   </head>
   <body>
     <form>
-      <p className="label">Session Type: cookie</p>
-      <label className="label">
+      <p class="label">Session Type: cookie</p>
+      <label class="label">
         Client ID
         <input
-          className="input"
+          class="input"
           type="text"
           placeholder="Enter Client ID"
           value="example"
         />
       </label>
-      <p className="label">Endpoint: {{ .AuthgearEndpoint }}</p>
-      <p className="label">Is SSO Enabled: true</p>
-      <p className="label">
+      <p class="label">Endpoint: {{ .AuthgearEndpoint }}</p>
+      <p class="label">Is SSO Enabled: true</p>
+      <p class="label">
         {{ if .IsAuthenticated }} Authenticated {{ else }} Unauthenticated {{
         end }}
       </p>
-      <button className="button" type="submit">Login</button>
+      <button class="button" type="submit">Login</button>
+      <div class="mt-2">
+        User Info:
+        <pre>{{ .UserJSON }}</pre>
+      </div>
     </form>
   </body>
 </html>

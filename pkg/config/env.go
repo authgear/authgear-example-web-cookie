@@ -8,7 +8,7 @@ import (
 type EnvConfig struct {
 	ListenAddr       string    `envconfig:"LISTEN_ADDR" default:"0.0.0.0:18001"`
 	LogLevel         log.Level `envconfig:"LOG_LEVEL" default:"info"`
-	AuthgearEndpoint string    `envconfig:"AUTHGEAR_ENDPOINT" default:"http://localhost:3000"`
+	AuthgearEndpoint string    `envconfig:"AUTHGEAR_ENDPOINT" default:"http://accounts.portal.localhost:3100"`
 }
 
 func LoadConfigFromEnv() (*EnvConfig, error) {

@@ -1,3 +1,5 @@
+export include .env
+
 FLAGS ?=
 
 .PHONY: vendor

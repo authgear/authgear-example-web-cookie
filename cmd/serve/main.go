@@ -8,6 +8,7 @@ import (
 	"github.com/authgear/authgear-server/pkg/util/httproute"
 	"github.com/authgear/authgear-server/pkg/util/log"
 
+	"github.com/oursky/authgear-exmaple-web-cookie/pkg/authgear"
 	"github.com/oursky/authgear-exmaple-web-cookie/pkg/config"
 	"github.com/oursky/authgear-exmaple-web-cookie/pkg/handler"
 )
@@ -24,6 +25,8 @@ func main() {
 
 	mainLogger := loggerFactory.New("main")
 
+	authgearClient := authgear.NewClient(envCfg.AuthgearEndpoint)
+
 	router := httproute.NewRouter()
 	router.Add(httproute.Route{
 		Methods:     []string{"GET"},
@@ -33,6 +36,7 @@ func main() {
 		Methods:     []string{"GET"},
 		PathPattern: "/",
 	}, &handler.IndexHandler{
+		AuthgearClient:   authgearClient,
 		AuthgearEndpoint: envCfg.AuthgearEndpoint,
 	})
 
