@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Authgear demo webapp - cookie session</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {{ template "index.css.html" }}
+  </head>
+  <body>
+    <form>
+      <p className="label">Session Type: cookie</p>
+      <label className="label">
+        Client ID
+        <input
+          className="input"
+          type="text"
+          placeholder="Enter Client ID"
+          value="example"
+        />
+      </label>
+      <p className="label">Endpoint: {{ .AuthgearEndpoint }}</p>
+      <p className="label">Is SSO Enabled: true</p>
+      <p className="label">
+        {{ if .IsAuthenticated }} Authenticated {{ else }} Unauthenticated {{
+        end }}
+      </p>
+      <button className="button" type="submit">Login</button>
+    </form>
+  </body>
+</html>
