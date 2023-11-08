@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/authgear/authgear-server/pkg/util/httproute"
@@ -26,6 +27,10 @@ func main() {
 	mainLogger := loggerFactory.New("main")
 
 	authgearClient := authgear.NewClient(envCfg.AuthgearEndpoint)
+	authgearEndpointURL, err := url.Parse(envCfg.AuthgearEndpoint)
+	if err != nil {
+		panic("invalid endpoint")
+	}
 
 	router := httproute.NewRouter()
 	router.Add(httproute.Route{
@@ -33,11 +38,11 @@ func main() {
 		PathPattern: "/ping",
 	}, &handler.PingHandler{})
 	router.Add(httproute.Route{
-		Methods:     []string{"GET"},
+		Methods:     []string{"GET", "POST"},
 		PathPattern: "/",
 	}, &handler.IndexHandler{
 		AuthgearClient:   authgearClient,
-		AuthgearEndpoint: envCfg.AuthgearEndpoint,
+		AuthgearEndpoint: authgearEndpointURL,
 	})
 
 	mainLogger.Info("starting server on ", envCfg.ListenAddr)
