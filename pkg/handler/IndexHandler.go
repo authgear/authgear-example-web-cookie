@@ -23,7 +23,12 @@ type Data struct {
 	AuthgearEndpoint string
 	IsAuthenticated  bool
 	UserJSON         string
+	DefaultClientID  string
 }
+
+const (
+	CookieNameDefaultClientID string = "default_client_id"
+)
 
 func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
@@ -62,10 +67,18 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		userJSON, _ := json.MarshalIndent(user, "", "  ")
 
+		defaultCientID := "example"
+
+		defaultCientIDCookie, err := r.Cookie(CookieNameDefaultClientID)
+		if err == nil && defaultCientIDCookie.Value != "" {
+			defaultCientID = defaultCientIDCookie.Value
+		}
+
 		data := &Data{
 			IsAuthenticated:  userID != "",
 			AuthgearEndpoint: h.AuthgearEndpoint.String(),
 			UserJSON:         string(userJSON),
+			DefaultClientID:  defaultCientID,
 		}
 
 		err = t.Execute(w, data)
@@ -106,6 +119,8 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 
 			url.RawQuery = q.Encode()
+
+			http.SetCookie(w, &http.Cookie{Name: CookieNameDefaultClientID, Value: clientID})
 
 			http.Redirect(w, r, url.String(), http.StatusFound)
 			return
