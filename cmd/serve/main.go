@@ -41,6 +41,7 @@ func main() {
 		Methods:     []string{"GET", "POST"},
 		PathPattern: "/",
 	}, &handler.IndexHandler{
+		Logger:           loggerFactory.New("index"),
 		AuthgearClient:   authgearClient,
 		AuthgearEndpoint: authgearEndpointURL,
 	})

@@ -2,16 +2,17 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"net/http"
 	"net/url"
 	"strings"
 
+	"github.com/authgear/authgear-server/pkg/util/log"
 	"github.com/oursky/authgear-exmaple-web-cookie/pkg/authgear"
 )
 
 type IndexHandler struct {
+	Logger           *log.Logger
 	AuthgearClient   *authgear.Client
 	AuthgearEndpoint *url.URL
 }
@@ -29,6 +30,7 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	oidcConfig, err := h.AuthgearClient.GetOIDCConfig()
 	if err != nil {
+		h.Logger.Errorln("failed to get oidc config")
 		UnknownErrorResponse(w)
 		return
 	}
@@ -36,14 +38,13 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	authorizationEndpoint := oidcConfig["authorization_endpoint"].(string)
 	endSessionEndpoint := oidcConfig["end_session_endpoint"].(string)
 
-	fmt.Println("oidcConfig", oidcConfig)
-
 	switch r.Method {
 	case "GET":
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 		t, err := template.ParseFiles("templates/index.html", "templates/index.css.html")
 		if err != nil {
+			h.Logger.Errorln("failed to parse templates")
 			UnknownErrorResponse(w)
 			return
 		}
@@ -69,6 +70,7 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		err = t.Execute(w, data)
 		if err != nil {
+			h.Logger.Errorln("failed to execute templates")
 			UnknownErrorResponse(w)
 			return
 		}
@@ -77,6 +79,7 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		err := r.ParseForm()
 		if err != nil {
+			h.Logger.Errorln("failed to parse form")
 			UnknownErrorResponse(w)
 			return
 		}
@@ -97,6 +100,7 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 			url, err := url.Parse(authorizationEndpoint)
 			if err != nil {
+				h.Logger.Errorln("failed to parse authorizationEndpoint")
 				UnknownErrorResponse(w)
 				return
 			}
@@ -108,6 +112,7 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case "logout":
 			logoutEndpoint, err := url.Parse(endSessionEndpoint)
 			if err != nil {
+				h.Logger.Errorln("failed to parse endSessionEndpoint")
 				UnknownErrorResponse(w)
 				return
 			}
@@ -119,7 +124,6 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, url.String(), http.StatusFound)
 			return
 		default:
-
 			NotFoundResponse(w, "")
 			return
 		}
