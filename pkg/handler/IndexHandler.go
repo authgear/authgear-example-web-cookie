@@ -15,6 +15,7 @@ type IndexHandler struct {
 	Logger           *log.Logger
 	AuthgearClient   *authgear.Client
 	AuthgearEndpoint *url.URL
+	DefaultClientID  string
 }
 
 var _ http.Handler = &IndexHandler{}
@@ -67,7 +68,7 @@ func (h *IndexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		userJSON, _ := json.MarshalIndent(user, "", "  ")
 
-		defaultCientID := "example"
+		defaultCientID := h.DefaultClientID
 
 		defaultCientIDCookie, err := r.Cookie(CookieNameDefaultClientID)
 		if err == nil && defaultCientIDCookie.Value != "" {

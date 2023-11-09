@@ -44,6 +44,7 @@ func main() {
 		Logger:           loggerFactory.New("index"),
 		AuthgearClient:   authgearClient,
 		AuthgearEndpoint: authgearEndpointURL,
+		DefaultClientID:  envCfg.DefaultClientID,
 	})
 
 	mainLogger.Info("starting server on ", envCfg.ListenAddr)
