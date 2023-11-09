@@ -1,6 +1,8 @@
 export include .env
 
 FLAGS ?=
+TAG ?= git-$(shell git rev-parse --short=8 HEAD)
+IMAGE = quay.io/theauthgear/authgear-example-web-cookie:$(TAG)
 
 .PHONY: vendor
 vendor:
@@ -28,3 +30,7 @@ check-tidy:
 .PHONY: start
 start:
 	go run ./cmd/serve/main.go
+
+.PHONY: image-build
+image-build:
+	docker buildx build --platform linux/amd64 . -t '$(IMAGE)' $(ARGS)

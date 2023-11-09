@@ -9,5 +9,6 @@ ARG TARGETOS
 RUN GOARCH=$TARGETARCH GOOS=$TARGETOS CGO_ENABLED=0 go build -tags authgearlite -o /serve ./cmd/serve
 
 FROM gcr.io/distroless/static-debian11
+COPY templates/* /templates/
 COPY --from=build /serve /
 CMD ["/serve"]
