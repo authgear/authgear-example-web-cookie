@@ -34,10 +34,6 @@ func main() {
 
 	router := httproute.NewRouter()
 	router.Add(httproute.Route{
-		Methods:     []string{"GET"},
-		PathPattern: "/ping",
-	}, &handler.PingHandler{})
-	router.Add(httproute.Route{
 		Methods:     []string{"GET", "POST"},
 		PathPattern: "/",
 	}, &handler.IndexHandler{
