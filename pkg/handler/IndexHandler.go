@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/authgear/authgear-exmaple-web-cookie/pkg/authgear"
 	"github.com/authgear/authgear-server/pkg/util/log"
-	"github.com/oursky/authgear-exmaple-web-cookie/pkg/authgear"
 )
 
 type IndexHandler struct {

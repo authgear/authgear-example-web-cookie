@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.19.2-bullseye AS build
+FROM --platform=$BUILDPLATFORM golang:1.21.4-bullseye AS build
 
 WORKDIR /src
 COPY go.mod go.sum ./

@@ -9,9 +9,9 @@ import (
 	"github.com/authgear/authgear-server/pkg/util/httproute"
 	"github.com/authgear/authgear-server/pkg/util/log"
 
-	"github.com/oursky/authgear-exmaple-web-cookie/pkg/authgear"
-	"github.com/oursky/authgear-exmaple-web-cookie/pkg/config"
-	"github.com/oursky/authgear-exmaple-web-cookie/pkg/handler"
+	"github.com/authgear/authgear-exmaple-web-cookie/pkg/authgear"
+	"github.com/authgear/authgear-exmaple-web-cookie/pkg/config"
+	"github.com/authgear/authgear-exmaple-web-cookie/pkg/handler"
 )
 
 func main() {
@@ -33,10 +33,6 @@ func main() {
 	}
 
 	router := httproute.NewRouter()
-	router.Add(httproute.Route{
-		Methods:     []string{"GET"},
-		PathPattern: "/ping",
-	}, &handler.PingHandler{})
 	router.Add(httproute.Route{
 		Methods:     []string{"GET", "POST"},
 		PathPattern: "/",

@@ -1,6 +1,6 @@
-module github.com/oursky/authgear-exmaple-web-cookie
+module github.com/authgear/authgear-exmaple-web-cookie
 
-go 1.19
+go 1.21
 
 require (
 	github.com/authgear/authgear-server v0.0.0-20230218234221-c81d8eda8da7
