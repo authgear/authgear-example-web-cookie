@@ -1,4 +1,4 @@
-module github.com/oursky/authgear-exmaple-web-cookie
+module github.com/authgear/authgear-exmaple-web-cookie
 
 go 1.19
 
